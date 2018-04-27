@@ -1,0 +1,13 @@
+#ifndef PARAMS_STRINGS_
+#define PARAMS_STRINGS_
+
+extern const char _parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_f_name[];
+extern const char _parameters_piercing_lasers_IPG4000_processes_ss_o2_1s_f_name[];
+extern const char _parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_f_name[];
+extern const char _parameters_piercing_lasers_IPG2000_processes_a_n2_1s_f_name[];
+extern const char _parameters_piercing_lasers_IPG4000_processes_c_o2_1s_f_name[];
+extern const char _parameters_piercing_lasers_IPG4000_processes_b_n2_1s_f_name[];
+extern const char _parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_hq_name[];
+extern const char _parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_hq_name[];
+extern const char _parameters_piercing_lasers_IPG2000_processes_a_n2_1s_hq_name[];
+#endif

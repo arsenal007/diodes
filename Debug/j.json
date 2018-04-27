@@ -1,0 +1,511 @@
+{
+    "parameters": {
+        "piercing": {
+            "lasers": {
+                "IPG2000": {
+                    "processes": {
+                        "a_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG2000_processes_a_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": 0.1
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": ["4","4","4","4","4"]
+                            }
+                        },
+                        "a_n2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG2000_processes_a_n2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "b_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_b_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "c_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_c_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ms_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,20]
+                            }
+                        },
+                        "ms_o2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,20]
+                            }
+                        },
+                        "ss_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_n2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        }
+                    }
+                },
+                "IPG3000": {
+                    "processes": {
+                        "a_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG2000_processes_a_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "a_n2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG2000_processes_a_n2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "b_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_b_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "c_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_c_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ms_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,12]
+                            }
+                        },
+                        "ms_o2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,12]
+                            }
+                        },
+                        "ss_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_n2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        }
+                    }
+                },
+                "IPG4000": {
+                    "processes": {
+                        "a_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG2000_processes_a_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,8,8,8]
+                            }
+                        },
+                        "a_n2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG2000_processes_a_n2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,8,8,8]
+                            }
+                        },
+                        "b_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_b_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "c_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_c_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ms_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,6,8,8,8]
+                            }
+                        },
+                        "ms_o2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ms_o2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,6,8,8,8]
+                            }
+                        },
+                        "ss_n2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,6,6,6]
+                            }
+                        },
+                        "ss_n2_1s_hq": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_n2_1s_hq_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,6,6,6]
+                            }
+                        },
+                        "ss_o2_1s_f": {
+                            "name": "_parameters_piercing_lasers_IPG4000_processes_ss_o2_1s_f_name",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,6,6,6]
+                            }
+                        }
+                    }
+                }
+            },
+            "piercing_channel": {
+                "T": "int32_t",
+                "access": "W",
+                "value": 1
+            }
+        }
+    }
+}

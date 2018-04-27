@@ -1,0 +1,511 @@
+{
+    "parameters": {
+        "piercing": {
+            "lasers": {
+                "IPG2000": {
+                    "processes": {
+                        "a_n2_1s_f": {
+                            "name": "CNC:04 aluminium, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": 0.1
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": ["4","4","4","4","4"]
+                            }
+                        },
+                        "a_n2_1s_hq": {
+                            "name": "CNC:10 aluminium, nitrogen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "b_n2_1s_f": {
+                            "name": "CNC:06 brass, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "c_o2_1s_f": {
+                            "name": "CNC:05 copper, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ms_o2_1s_f": {
+                            "name": "CNC:01 mild steel, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,20]
+                            }
+                        },
+                        "ms_o2_1s_hq": {
+                            "name": "CNC:08 mild steel, oxygen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,20]
+                            }
+                        },
+                        "ss_n2_1s_f": {
+                            "name": "CNC:03 stainless steel, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_n2_1s_hq": {
+                            "name": "CNC:09 stainless steel, nitrogen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_o2_1s_f": {
+                            "name": "CNC:02 stainless steel, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        }
+                    }
+                },
+                "IPG3000": {
+                    "processes": {
+                        "a_n2_1s_f": {
+                            "name": "CNC:04 aluminium, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "a_n2_1s_hq": {
+                            "name": "CNC:10 aluminium, nitrogen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "b_n2_1s_f": {
+                            "name": "CNC:06 brass, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "c_o2_1s_f": {
+                            "name": "CNC:05 copper, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ms_o2_1s_f": {
+                            "name": "CNC:01 mild steel, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,12]
+                            }
+                        },
+                        "ms_o2_1s_hq": {
+                            "name": "CNC:08 mild steel, oxygen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [5,5,5,12,12]
+                            }
+                        },
+                        "ss_n2_1s_f": {
+                            "name": "CNC:03 stainless steel, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_n2_1s_hq": {
+                            "name": "CNC:09 stainless steel, nitrogen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ss_o2_1s_f": {
+                            "name": "CNC:02 stainless steel, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        }
+                    }
+                },
+                "IPG4000": {
+                    "processes": {
+                        "a_n2_1s_f": {
+                            "name": "CNC:04 aluminium, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,8,8,8]
+                            }
+                        },
+                        "a_n2_1s_hq": {
+                            "name": "CNC:10 aluminium, nitrogen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.1f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,8,8,8]
+                            }
+                        },
+                        "b_n2_1s_f": {
+                            "name": "CNC:06 brass, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "c_o2_1s_f": {
+                            "name": "CNC:05 copper, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,4,4,4,4]
+                            }
+                        },
+                        "ms_o2_1s_f": {
+                            "name": "CNC:01 mild steel, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,6,8,8,8]
+                            }
+                        },
+                        "ms_o2_1s_hq": {
+                            "name": "CNC:08 mild steel, oxygen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.005f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [4,6,8,8,8]
+                            }
+                        },
+                        "ss_n2_1s_f": {
+                            "name": "CNC:03 stainless steel, nitrogen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,6,6,6]
+                            }
+                        },
+                        "ss_n2_1s_hq": {
+                            "name": "CNC:09 stainless steel, nitrogen, 1-step, hq",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,6,6,6]
+                            }
+                        },
+                        "ss_o2_1s_f": {
+                            "name": "CNC:02 stainless steel, oxygen, 1-step, fast",
+                            "p_max_puls_increment": {
+                                "T": "float",
+                                "access": "W",
+                                "value": "0.05f"
+                            },
+                            "p_piercing_class": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": 0
+                            },
+                            "p_puls_length": {
+                                "T": "int32_t",
+                                "access": "W",
+                                "value": [3,4,6,6,6]
+                            }
+                        }
+                    }
+                }
+            },
+            "piercing_channel": {
+                "T": "int32_t",
+                "access": "W",
+                "value": 1
+            }
+        }
+    }
+}
