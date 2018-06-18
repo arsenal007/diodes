@@ -39,7 +39,8 @@ int main( int argc, char* argv[] )
 {
   jsoncons::ojson lpm_json;
   std::string name_of_diode;
-  uint32_t id;
+  uint32_t id, Nc;
+  int m;
   try
   {
     TCLAP::CmdLine cmd( "application producing parameters", ' ', "0.1" );
@@ -60,7 +61,9 @@ int main( int argc, char* argv[] )
 
     jsoncons::ojson options = lpm_json[ "options" ];
     name_of_diode = options[ "diode_name" ].as_string();
+    Nc = options[ "number_of_currents" ].as_uint();
     id = options[ "i" ].as_uint();
+    m = options[ "M" ].as_int();
     std::ofstream ofs( options[ "json" ].get_with_default( "input_pretty_output", "o.json" ) );
     ofs << jsoncons::pretty_print( lpm_json );
     lpm_json.erase( "options" );
@@ -75,14 +78,14 @@ int main( int argc, char* argv[] )
   {
     jsoncons::ojson& diode = j.value();
     jsoncons::ojson jarray = jsoncons::ojson::array();
-    for ( auto voltages : diode.object_range() )
+    for ( auto currents : diode.object_range() )
     {
       double avarge_value = 0.0f;
-      for ( auto voltage_on_diode : voltages.value().array_range() )
+      for ( auto voltage_on_diode : currents.value().array_range() )
       {
         avarge_value += voltage_on_diode.as_double();
       }
-      avarge_value /= static_cast<double>( voltages.value().size() );
+      avarge_value /= static_cast<double>( currents.value().size() );
       jarray.push_back( avarge_value );
     }
     jsoncons::ojson t = jsoncons::ojson::object();
@@ -91,7 +94,6 @@ int main( int argc, char* argv[] )
   }
 
   int n = jdiodes.size();
-  int m = 4;
   std::vector<int> a;
   for ( int i = 0; i < n; i++ )
     a.push_back( i );
@@ -101,54 +103,46 @@ int main( int argc, char* argv[] )
   do
   {
     jsoncons::ojson b = jsoncons::ojson::array();
-    b.push_back( jdiodes[ a[ 0 ] ] );
-    b.push_back( jdiodes[ a[ 1 ] ] );
-    b.push_back( jdiodes[ a[ 2 ] ] );
-    b.push_back( jdiodes[ a[ 3 ] ] );
+    for ( int i = 0; i < m; i++ )
+      b.push_back( jdiodes[ a[ i ] ] );
     jsoncons::ojson d = jsoncons::ojson::object();
     d[ "diodes" ] = b;
     jcombination.push_back( d );
   } while ( NextSet( a, n, m ) );
 
+  // loop over various diodes set
   for ( auto& pair : jcombination.array_range() )
   {
-    double x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3, z3;
+    double s = 0;
+    //loop inside a set over diodes
+    for ( int i = 0; i < m; i++ )
+    {
+      // loop over currents
+      for ( size_t j = 0; j < Nc; j++ )
+      {
+        double c0, c1;
+        //this loop is for elimination diode name. it's goes from 0 to 1;
+        for ( auto voltages : pair[ "diodes" ][ i ].object_range() )
+          c0 = voltages.value()[ j ].as_double();
 
-    for ( auto voltages : pair[ "diodes" ][ 0 ].object_range() )
-    {
-      x0 = voltages.value()[ 0 ].as_double();
-      y0 = voltages.value()[ 1 ].as_double();
-      z0 = voltages.value()[ 2 ].as_double();
-    }
-    for ( auto voltages : pair[ "diodes" ][ 1 ].object_range() )
-    {
-      x1 = voltages.value()[ 0 ].as_double();
-      y1 = voltages.value()[ 1 ].as_double();
-      z1 = voltages.value()[ 2 ].as_double();
-    }
-    for ( auto voltages : pair[ "diodes" ][ 2 ].object_range() )
-    {
-      x2 = voltages.value()[ 0 ].as_double();
-      y2 = voltages.value()[ 1 ].as_double();
-      z2 = voltages.value()[ 2 ].as_double();
-    }
-    for ( auto voltages : pair[ "diodes" ][ 3 ].object_range() )
-    {
-      x3 = voltages.value()[ 0 ].as_double();
-      y3 = voltages.value()[ 1 ].as_double();
-      z3 = voltages.value()[ 2 ].as_double();
-    }
-    double d01 = sqrt( ( x0 - x1 ) * ( x0 - x1 ) + ( y0 - y1 ) * ( y0 - y1 ) + ( z0 - z1 ) * ( z0 - z1 ) );
-    double d12 = sqrt( ( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ) + ( z1 - z2 ) * ( z1 - z2 ) );
-    double d23 = sqrt( ( x2 - x3 ) * ( x2 - x3 ) + ( y2 - y3 ) * ( y2 - y3 ) + ( z2 - z3 ) * ( z2 - z3 ) );
-    double d30 = sqrt( ( x3 - x0 ) * ( x3 - x0 ) + ( y3 - y0 ) * ( y3 - y0 ) + ( z3 - z0 ) * ( z3 - z0 ) );
+        int k = i + 1;
+        if ( k == m ) k = 0;
 
-    pair[ "distance" ] = d01 + d12 + d23 + d30;
+        //this loop is for elimination diode name. it's goes from 0 to 1;
+        for ( auto voltages : pair[ "diodes" ][ k ].object_range() )
+          c1 = voltages.value()[ j ].as_double();
+
+        s += ( c0 - c1 ) * ( c0 - c1 );
+      }
+    }
+    pair[ "distance" ] = sqrt( s );
   }
   std::sort( jcombination.array_range().begin(), jcombination.array_range().end(),
              []( jsoncons::ojson a, jsoncons::ojson b ) -> bool {
                return ( a[ "distance" ].as_double() < b[ "distance" ].as_double() );
              } );
-  jsoncons::ojson j = jcombination[ id ];
-  std::cout << pretty_print( j ) << std::endl;
+  {
+    jsoncons::ojson j = jcombination[ id ];
+    std::cout << pretty_print( j ) << std::endl;
+  }
 }
