@@ -12,409 +12,143 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <list>
+#include <functional>
+#include <memory>
+#include <utility>
 #include <jsoncons/json.hpp>
 #include <jsoncons_ext/jsonpointer/jsonpointer.hpp>
-#include <search_strings.h>
-#include <str_key_value_pair.h>
-#include <file.h>
-//#include "clang/Format/Format.h"
 
-class TSearchByKey
+#include <tclap/CmdLine.h>
+
+bool NextSet( std::vector<int>& a, int const& n, int const& m )
 {
-  std::vector<std::string> pointers;
-  const std::string sc;
-
- public:
-  TSearchByKey( std::string s ) : sc( s ) {}
-  std::string f( jsoncons::json j, std::string str )
-  {
-    std::string s;
-    if ( j.is<jsoncons::json::object>() )
-      for ( const auto& kv : j.object_range() )
-      {
-        std::string name( kv.key() );
-        std::transform( name.begin(), name.end(), name.begin(), []( char ch ) { return ch == ' ' ? '_' : ch; } );
-        jsoncons::json v = kv.value();
-        std::string sn = str + name + "/";
-
-        if ( v.is<jsoncons::json::object>() )
-        {
-          s = f( v, sn );
-        }
-        else if ( name == sc )
-        {
-          s = str + name;
-          pointers.push_back( s );
-        }
-      }
-    return s;
-  }
-  auto const& get( void )
-  {
-    return pointers;
-  }
-};
-
-class TSearchByKeyValue
-{
-  std::vector<std::string> pointers;
-  const std::string key;
-  const std::string value;
-
- public:
-  TSearchByKeyValue( std::string const& k, std::string const& v ) : key( k ), value( v ) {}
-  std::string f( jsoncons::json j, std::string str )
-  {
-    std::string s;
-    if ( j.is<jsoncons::json::object>() )
-      for ( const auto& kv : j.object_range() )
-      {
-        std::string name( kv.key() );
-        std::transform( name.begin(), name.end(), name.begin(), []( char ch ) { return ch == ' ' ? '_' : ch; } );
-        jsoncons::json v = kv.value();
-        std::string sn = str + name + "/";
-        //std::cout << str << std::endl;
-        if ( v.is<jsoncons::json::object>() )
-        {
-          s = f( v, sn );
-        }
-        else if ( ( name == key ) && ( v.as_string() == value ) )
-        {
-          s = str + name;
-          pointers.push_back( s );
-        }
-      }
-    return s;
-  }
-  auto const& get( void )
-  {
-    return pointers;
-  }
-};
-
-//=============================================================
-// create C++ struct with all values of json file
-// This Structure is devoted to flashing external flash
-//=============================================================
-
-std::string create( jsoncons::json j, bool instance = true )
-{
-  std::string s;
-  if ( j.is<jsoncons::json::object>() )
-    for ( const auto& kv : j.object_range() )
+  int k = m;
+  for ( int i = k - 1; i >= 0; --i )
+    if ( a[ i ] < n - k + i )
     {
-      std::string name( kv.key() );
-
-      // if within key there are spaces -> change to "_"
-      std::transform( name.begin(), name.end(), name.begin(), []( char ch ) { return ch == ' ' ? '_' : ch; } );
-      jsoncons::json v = kv.value();
-      if ( v.has_key( "value" ) )
-      {
-        s += std::string( "struct T_" + name + " {\n" );
-        auto value = v[ "value" ];
-        auto access = v[ "access" ].as_string();
-        auto data_type = v[ "T" ].as_string();
-        auto w_value = v[ "w_value" ].as_string();
-        if ( access.size() == 1 ) s += std::string( "const char access = \'" + access + "\';\n" );
-
-        if ( value.is_array() )
-        {
-          auto a = value.as<std::vector<std::string>>();
-          std::stringstream ss;
-          ss << a.size();
-          std::string size( ss.str() );
-
-          s += std::string( "const " + data_type + " value[" + size + "] = { " );
-          for ( auto const& value_in_array : a )
-          {
-            s += std::string( value_in_array );
-            s += ", ";
-          }
-          s.erase( s.end() - 2, s.end() );
-          s += "};\n";
-          s += std::string( data_type + "* const w_value = " + w_value + ";\n" );
-        }
-        else
-        {
-          s += std::string( "const " + data_type + " value = " + value.as_string() + ";\n" );
-          s += std::string( data_type + "* const w_value = " + w_value + ";\n" );
-        }
-        s += std::string( " \n} __attribute__( ( packed ) );\n" );
-        s += std::string( "const T_" + name + "  " + name + ";\n" );
-      }
-      else if ( ( name == "name" ) && ( v.is_string() ) )
-      {
-        s += std::string( "const char * const name = " + v.as_string() + ";\n" );
-      }
-      else if ( v.is_object() )
-      {
-        s += std::string( "struct T_" + name + " {\n" + create( v ) + " \n} __attribute__( ( packed ) );" );
-        // instance flag:
-        // true => a real instance
-        // false => "extern" instance
-        if ( instance )
-        {
-          s += std::string( "const T_" + name + "  " + name + ";\n" );
-        }
-        else
-        {
-          // in your case, it's necessary only for header struct
-          s += std::string( "extern const T_" + name + "  " + name + ";\n" );
-        }
-      }
+      ++a[ i ];
+      for ( int j = i + 1; j < k; ++j )
+        a[ j ] = a[ j - 1 ] + 1;
+      return true;
     }
-  return s;
-}
-
-//=============================================================
-// create C++ struct with all values of json file
-// This Structure is devoted to internal RAM only Writable values
-//=============================================================
-inline std::string internal_ram_struct( jsoncons::json j, bool instance = true )
-{
-  std::string s;
-  if ( j.is<jsoncons::json::object>() )
-    for ( const auto& kv : j.object_range() )
-    {
-      std::string name( kv.key() );
-
-      // if within key there are spaces -> change to "_"
-      std::transform( name.begin(), name.end(), name.begin(), []( char ch ) { return ch == ' ' ? '_' : ch; } );
-      jsoncons::json v = kv.value();
-      if ( v.has_key( "w_value" ) )
-      {
-        s += std::string( "struct T_" + name + " {\n" );
-        auto value = v[ "w_value" ];
-        auto data_type = v[ "T" ].as_string();
-        if ( value.is_array() )
-        {
-          auto a = value.as<std::vector<std::string>>();
-          std::stringstream ss;
-          ss << a.size();
-          std::string size( ss.str() );
-          s += std::string( data_type + " w_value[" + size + "];\n" );
-        }
-        else
-        {
-          s += std::string( data_type + " w_value;\n" );
-        }
-        s += std::string( "} __attribute__( ( packed ) );\n" );
-        s += std::string( "T_" + name + "  " + name + ";\n" );
-      }
-      else if ( v.is<jsoncons::json::object>() )
-      {
-        s += std::string( "struct T_" + name + " { " + internal_ram_struct( v ) + " } __attribute__( ( packed ) );" );
-
-        // instance flag:
-        // true => a real instance
-        // false => "extern" instance
-        if ( instance )
-        {
-          s += std::string( "T_" + name + "  " + name + ";\n" );
-        }
-        else
-        {
-          s += std::string( "extern T_" + name + "  " + name + ";\n" );
-        };
-      }
-    }
-  return s;
-}
-
-std::vector<std::string> split( std::string const& input )
-{
-  std::istringstream buffer( input );
-  std::vector<std::string> ret;
-  std::copy( std::istream_iterator<std::string>( buffer ), std::istream_iterator<std::string>(),
-             std::back_inserter( ret ) );
-
-  return ret;
-}
-
-inline jsoncons::json const add_j( std::string const& s, jsoncons::json j )
-{
-  jsoncons::json w;
-  w[ s ] = std::move( j );
-  return w;
-}
-
-jsoncons::json const new_j( std::string const& s )
-{
-  auto t( s );
-  std::transform( t.begin(), t.end(), t.begin(), []( char ch ) { return ch == '/' ? ' ' : ch; } );
-  auto a = split( t );
-  std::reverse( a.begin(), a.end() );
-  jsoncons::json o;
-  for ( auto const& v : a )
-  {
-    o = add_j( v, o );
-    //jsoncons::json w;
-    //w[ v ] = std::move( o );
-    //o = w;
-    //r += std::string( "/" + v );
-    //std::cout << r << std::endl;
-  }
-  return o;
-}
-
-jsoncons::json const merge( jsoncons::json a, jsoncons::json b )
-{
-  if ( ( a.is<jsoncons::json::object>() ) && ( b.is<jsoncons::json::object>() ) )
-
-    for ( const auto& bkv : b.object_range() )
-    {
-      std::string b_key( bkv.key() );
-      jsoncons::json v = bkv.value();
-      // if A does not have object B -> merge
-      if ( a.has_key( b_key ) == false )
-      {
-        a.merge( std::move( b ) );
-        return a;
-      }
-      //add new json to a only if A does not contain B
-      a[ b_key ] = merge( a[ b_key ], b[ b_key ] );
-    }
-  return a;
+  return false;
 }
 
 int main( int argc, char* argv[] )
 {
-  std::ifstream ifs( "i.json" );
-  jsoncons::json lpm_json;
-  if ( ifs.good() )
+  jsoncons::ojson lpm_json;
+  std::string name_of_diode;
+  uint32_t id;
+  try
   {
-    ifs >> lpm_json;
-  }
-  else
-  {
-    std::cout << "Can't find 'i.json' " << std::endl;
-  }
+    TCLAP::CmdLine cmd( "application producing parameters", ' ', "0.1" );
+    TCLAP::ValueArg<std::string> input_file_Arg( "i", "input", "Input file", true, "input.json", "string" );
+    cmd.add( input_file_Arg );
+    cmd.parse( argc, argv );
+    const std::string infile( input_file_Arg.getValue() );
+    std::ifstream ifs( infile );
 
-  {
-    std::ofstream ofs( "o.json" );
+    if ( ifs.good() )
+    {
+      ifs >> lpm_json;
+    }
+    else
+    {
+      std::cout << "Can't find \"" << infile << "\"" << std::endl;
+    }
+
+    jsoncons::ojson options = lpm_json[ "options" ];
+    name_of_diode = options[ "diode_name" ].as_string();
+    id = options[ "i" ].as_uint();
+    std::ofstream ofs( options[ "json" ].get_with_default( "input_pretty_output", "o.json" ) );
     ofs << jsoncons::pretty_print( lpm_json );
+    lpm_json.erase( "options" );
     ofs.close();
   }
-
-  // header content
-  std::string header_content(
-      std::string( "#ifndef LPM_PARAMETERS_\n #define LPM_PARAMETERS_\n namespace Firmware {\n namespace System  {\n "
-                   "namespace Parameters  {\n " ) );
-
-  auto j = strings( lpm_json, header_content );
+  catch ( TCLAP::ArgException& e )  // catch any exceptions
   {
-    std::ofstream ofs( "j.json" );
-    ofs << jsoncons::pretty_print( j );
-    ofs.close();
+    std::cerr << "error: " << e.error() << " for alsrg " << e.argId() << std::endl;
   }
-
-  // ej is eventual json object
-  // to build flash structure
-  jsoncons::json ej;
-
-  // create writable json
+  jsoncons::ojson jdiodes = jsoncons::ojson::array();
+  for ( auto j : lpm_json[ "diodes" ][ name_of_diode ].object_range() )
   {
-    // o - json object to be converted in C++ struct for ram
-    jsoncons::json o;
+    jsoncons::ojson& diode = j.value();
+    jsoncons::ojson jarray = jsoncons::ojson::array();
+    for ( auto voltages : diode.object_range() )
     {
-      TSearchByKeyValue sn( "access", "W" );
-
-      // find all jsonpointers to "access":"W"
-      sn.f( j, std::string( "/" ) );
-      // sn.get() - return std::vector<std::string> with all jsonpointers
-      // this loop is over all jsonpointers
-      for ( auto const& value : sn.get() )
+      double avarge_value = 0.0f;
+      for ( auto voltage_on_diode : voltages.value().array_range() )
       {
-        std::string v( value );
-        std::string s( "/access" );
-        v.erase( v.end() - s.size(), v.end() );
-        o = merge( o, new_j( v ) );
-        //std::cout << "json: " << v << std::endl;
-        //std::cout << "(1) " << jsoncons::jsonpointer::contains( j, v ) << std::endl;
-        auto l = jsoncons::jsonpointer::get( j, std::string( v + "/value" ) );
-        jsoncons::jsonpointer::insert( o, std::string( v + "/w_value" ), l );
-        auto data_t = jsoncons::jsonpointer::get( j, std::string( v + "/T" ) );
-        jsoncons::jsonpointer::insert( o, std::string( v + "/T" ), data_t );
+        avarge_value += voltage_on_diode.as_double();
       }
+      avarge_value /= static_cast<double>( voltages.value().size() );
+      jarray.push_back( avarge_value );
     }
-
-    jsoncons::json u;
-    // rename top level name, because of duplicate name in C++
-    // for writing structure
-    ej = merge( j, o );
-    u[ "wparameters" ] = std::move( o[ "parameters" ] );
-
-    std::ofstream o_json( "ram.json" );
-    if ( o_json.is_open() == false )
-    {
-      std::cout << "file open failed:"
-                << "ram.json" << std::endl;
-    }
-    o_json << jsoncons::pretty_print( u );
-    o_json.close();
-
-    header_content += internal_ram_struct( u, false );
-
-    //std::cout << "json: " << jsoncons::pretty_print( o ) << std::endl;
-    //jsoncons::jsonpointer::insert( o, r, jsoncons::json( "1" ) );
-
-    {
-      TSearchByKey se( "w_value" );
-      se.f( u[ "wparameters" ], std::string( "/" ) );
-      for ( auto const& value : se.get() )
-      {
-        std::string s( value );
-        std::transform( s.begin(), s.end(), s.begin(), []( char ch ) { return ch == '/' ? '.' : ch; } );
-        jsoncons::json address;
-        jsoncons::json b = ej[ "parameters" ];
-        jsoncons::json old = jsoncons::jsonpointer::get( b, std::string( value ) );
-        if ( old.is_array() )
-        {
-          address = jsoncons::json( std::string( "wparameters" + s ) );
-        }
-        else
-        {
-          address = jsoncons::json( std::string( "&wparameters" + s ) );
-        }
-        jsoncons::jsonpointer::replace( b, std::string( value ), address );
-        ej[ "parameters" ] = std::move( b );
-      }
-    }
+    jsoncons::ojson t = jsoncons::ojson::object();
+    t[ j.key() ] = std::move( jarray );
+    jdiodes.push_back( t );
   }
 
-  header_content += create( ej, false );
+  int n = jdiodes.size();
+  int m = 4;
+  std::vector<int> a;
+  for ( int i = 0; i < n; i++ )
+    a.push_back( i );
 
-  /*{
-    TSearchByKey sn( "access" );
-    sn.f( j, std::string( "/" ) );
-    for ( auto const& value : sn.get() )
-    {
-      //std::cout << value << std::endl;
-    }
-  }
+  jsoncons::ojson jcombination = jsoncons::ojson::array();
 
+  do
   {
-    TSearchByKey sn( "value" );
-    sn.f( j, std::string( "/" ) );
-    for ( auto const& value : sn.get() )
-    {
-      //std::cout << value << std::endl;
-    }
-  }*/
+    jsoncons::ojson b = jsoncons::ojson::array();
+    b.push_back( jdiodes[ a[ 0 ] ] );
+    b.push_back( jdiodes[ a[ 1 ] ] );
+    b.push_back( jdiodes[ a[ 2 ] ] );
+    b.push_back( jdiodes[ a[ 3 ] ] );
+    jsoncons::ojson d = jsoncons::ojson::object();
+    d[ "diodes" ] = b;
+    jcombination.push_back( d );
+  } while ( NextSet( a, n, m ) );
 
+  for ( auto& pair : jcombination.array_range() )
   {
-    header_content += std::string( "}}}\n #endif" );
-    std::ofstream o( "p.hpp" );
-    if ( o.is_open() == false )
-    {
-      std::cout << "file open failed:"
-                << "p.hpp" << std::endl;
-    }
-    o << header_content;
-    o.close();
+    double x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3, z3;
 
-    // TODO: This must written as C++ Clang library function call
-    system( "\"C:\\Program Files\\LLVM\\bin\\clang-format.exe\" p.hpp > Parameters.hpp" );
-    //clang::format::format( "p.hpp" );
+    for ( auto voltages : pair[ "diodes" ][ 0 ].object_range() )
+    {
+      x0 = voltages.value()[ 0 ].as_double();
+      y0 = voltages.value()[ 1 ].as_double();
+      z0 = voltages.value()[ 2 ].as_double();
+    }
+    for ( auto voltages : pair[ "diodes" ][ 1 ].object_range() )
+    {
+      x1 = voltages.value()[ 0 ].as_double();
+      y1 = voltages.value()[ 1 ].as_double();
+      z1 = voltages.value()[ 2 ].as_double();
+    }
+    for ( auto voltages : pair[ "diodes" ][ 2 ].object_range() )
+    {
+      x2 = voltages.value()[ 0 ].as_double();
+      y2 = voltages.value()[ 1 ].as_double();
+      z2 = voltages.value()[ 2 ].as_double();
+    }
+    for ( auto voltages : pair[ "diodes" ][ 3 ].object_range() )
+    {
+      x3 = voltages.value()[ 0 ].as_double();
+      y3 = voltages.value()[ 1 ].as_double();
+      z3 = voltages.value()[ 2 ].as_double();
+    }
+    double d01 = sqrt( ( x0 - x1 ) * ( x0 - x1 ) + ( y0 - y1 ) * ( y0 - y1 ) + ( z0 - z1 ) * ( z0 - z1 ) );
+    double d12 = sqrt( ( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ) + ( z1 - z2 ) * ( z1 - z2 ) );
+    double d23 = sqrt( ( x2 - x3 ) * ( x2 - x3 ) + ( y2 - y3 ) * ( y2 - y3 ) + ( z2 - z3 ) * ( z2 - z3 ) );
+    double d30 = sqrt( ( x3 - x0 ) * ( x3 - x0 ) + ( y3 - y0 ) * ( y3 - y0 ) + ( z3 - z0 ) * ( z3 - z0 ) );
+
+    pair[ "distance" ] = d01 + d12 + d23 + d30;
   }
+  std::sort( jcombination.array_range().begin(), jcombination.array_range().end(),
+             []( jsoncons::ojson a, jsoncons::ojson b ) -> bool {
+               return ( a[ "distance" ].as_double() < b[ "distance" ].as_double() );
+             } );
+  jsoncons::ojson j = jcombination[ id ];
+  std::cout << pretty_print( j ) << std::endl;
 }
